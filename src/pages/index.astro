@@ -1,0 +1,638 @@
+---
+import Base from '../layouts/Base.astro';
+import { characters, nenTypeColors } from '../data/characters.js';
+import { portraits } from '../data/portraits.js';
+
+const featured = ['gon', 'killua', 'kurapika', 'leorio', 'hisoka'].map((id) => {
+  const c = characters.find((x) => x.id === id);
+  return { ...c, portrait: portraits[id] };
+});
+
+const arcs = [
+  {
+    num: 'I',
+    title: 'Hunter Exam',
+    color: 'var(--hxh-green)',
+    text: 'Gon, Kurapika and Leorio survive a marathon through a swamp of liars, a chef with impossible standards, and a tower full of killers — and meet a boy named Killua.',
+  },
+  {
+    num: 'II',
+    title: 'Heavens Arena',
+    color: 'var(--hxh-blue)',
+    text: 'A 251-floor tower where fighters earn money with their fists. On floor 200, Gon and Killua hit a wall called Nen — and a magician waiting for them to ripen.',
+  },
+  {
+    num: 'III',
+    title: 'Yorknew City',
+    color: 'var(--hxh-red)',
+    text: 'The world\'s biggest auction draws mafia, thieves and Hunters. Kurapika\'s chains finally meet the Phantom Troupe. Nobody walks away unchanged.',
+  },
+  {
+    num: 'IV',
+    title: 'Greed Island',
+    color: 'var(--hxh-gold)',
+    text: 'A game console that costs billions — because the game is real. Gon and Killua train under Biscuit and learn that cards, rules and Nen make a deadly combination.',
+  },
+  {
+    num: 'V',
+    title: 'Chimera Ant',
+    color: 'var(--hxh-purple)',
+    text: 'An insect queen washes ashore and begins eating humans — and birthing something new. The darkest arc in the story asks what actually separates monster from man.',
+  },
+  {
+    num: 'VI',
+    title: '13th Chairman Election',
+    color: 'var(--hxh-pink)',
+    text: 'The Association must replace the irreplaceable. The Zoldyck brothers play their own game, and Gon finally meets the man he\'s been chasing all along.',
+  },
+];
+---
+
+<Base title="Home">
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <canvas id="aura-canvas" aria-hidden="true"></canvas>
+    <div class="hero-inner container">
+      <p class="hero-kicker">A FAN TRIBUTE TO YOSHIHIRO TOGASHI'S MASTERPIECE</p>
+      <h1 class="hero-title hxh-letters" aria-label="Hunter x Hunter">
+        {'HUNTER×HUNTER'.split('').map((ch, i) => (
+          <span style={`animation-delay:${i * 0.055}s`}>{ch}</span>
+        ))}
+      </h1>
+      <p class="hero-sub">
+        Hunters are licensed elites who chase the unknown — beasts, ruins, criminals, riches…
+        and sometimes a father who left a game behind instead of a goodbye.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-red" href="/characters">Meet the Hunters</a>
+        <a class="btn btn-green" href="/nen">Learn Nen</a>
+        <a class="btn btn-ghost" href="/map">Explore the World</a>
+      </div>
+    </div>
+    <div class="hero-fade" aria-hidden="true"></div>
+  </section>
+
+  <!-- ================= WHAT IS A HUNTER ================= -->
+  <section class="section container">
+    <span class="section-kicker reveal">CHAPTER 1</span>
+    <h2 class="section-title reveal">What is a <span class="accent-g">Hunter</span>?</h2>
+    <div class="license-row">
+      <div class="license-copy reveal">
+        <p>
+          Fewer than one in ten thousand applicants survives the Hunter Exam. Those who do receive a
+          <strong>Hunter License</strong> — a card that opens 90% of the world's doors: free travel,
+          legal immunity in most countries, access to restricted zones, and enough resale value to
+          fund seven ordinary lifetimes.
+        </p>
+        <p>
+          But the license is just paper. What makes a Hunter is the hunt itself: gourmet Hunters chase
+          impossible flavors, ruins Hunters chase lost civilizations, blacklist Hunters chase the
+          world's worst criminals. And a boy from Whale Island chases the one Hunter who never came home.
+        </p>
+        <p class="license-hint">↪ Hover the license — it's yours now.</p>
+      </div>
+      <div class="license-card reveal reveal-delay-1" id="license-card" tabindex="0" aria-label="Interactive Hunter License card">
+        <div class="license-shine" aria-hidden="true"></div>
+        <div class="license-top">
+          <svg viewBox="0 0 40 40" class="license-x" aria-hidden="true">
+            <g stroke-linecap="round" stroke-width="7">
+              <line x1="8" y1="8" x2="32" y2="32" stroke="#e63946" />
+              <line x1="32" y1="8" x2="8" y2="32" stroke="#2b6e3f" />
+            </g>
+          </svg>
+          <div>
+            <div class="license-label">HUNTER ASSOCIATION</div>
+            <div class="license-title">HUNTER LICENSE</div>
+          </div>
+        </div>
+        <div class="license-body">
+          <div class="license-photo" aria-hidden="true">
+            <svg viewBox="0 0 60 60">
+              <circle cx="30" cy="22" r="11" fill="#2b6e3f" />
+              <path d="M10 54 c2 -14 10 -20 20 -20 s18 6 20 20z" fill="#2b6e3f" />
+            </svg>
+          </div>
+          <div class="license-fields">
+            <div><span>NAME</span> YOU, THE VISITOR</div>
+            <div><span>CLASS</span> ROOKIE ★</div>
+            <div><span>ID</span> №&nbsp;289-1998-0316</div>
+            <div><span>ISSUED</span> 287th HUNTER EXAM</div>
+          </div>
+        </div>
+        <div class="license-strip" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= WHALE ISLAND PANORAMA ================= -->
+  <section class="section container">
+    <figure class="panorama card reveal" aria-label="Illustration of Whale Island at dusk">
+      <svg viewBox="0 0 1200 380" class="panorama-svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#12203c" />
+            <stop offset="55%" stop-color="#37436e" />
+            <stop offset="82%" stop-color="#b1585e" />
+            <stop offset="100%" stop-color="#e08a5a" />
+          </linearGradient>
+          <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c76f56" />
+            <stop offset="30%" stop-color="#3a4a78" />
+            <stop offset="100%" stop-color="#101a30" />
+          </linearGradient>
+        </defs>
+        <rect width="1200" height="240" fill="url(#sky)" />
+        <circle cx="850" cy="215" r="52" fill="#f6d08a" opacity="0.95" />
+        <circle cx="850" cy="215" r="70" fill="#f6d08a" opacity="0.25" />
+        <g fill="#0d1526" opacity="0.85">
+          <circle cx="120" cy="70" r="2" /><circle cx="240" cy="40" r="1.6" /><circle cx="380" cy="86" r="2" />
+          <circle cx="520" cy="34" r="1.6" /><circle cx="1050" cy="60" r="2" /><circle cx="1140" cy="110" r="1.6" />
+        </g>
+        <rect y="240" width="1200" height="140" fill="url(#water)" />
+        <!-- whale island -->
+        <g>
+          <path d="M330 240 C 380 150 480 118 560 128 C 640 138 700 180 720 240 Z" fill="#1a2b45" />
+          <path d="M330 240 C 380 150 480 118 560 128 C 610 134 650 152 680 186 C 620 168 500 160 430 196 C 390 214 360 228 348 240 Z" fill="#22375a" />
+          <path d="M545 128 C 560 100 596 96 612 112 C 596 110 576 116 566 132 Z" fill="#22375a" />
+          <g fill="#142138">
+            <path d="M470 190 l14 -26 14 26 z" /><path d="M496 184 l12 -22 12 22 z" /><path d="M520 190 l14 -26 14 26 z" />
+          </g>
+          <circle cx="560" cy="208" r="3.5" fill="#f6d08a" />
+          <circle cx="586" cy="216" r="3" fill="#f6d08a" />
+          <circle cx="540" cy="220" r="2.5" fill="#f6d08a" />
+        </g>
+        <!-- waves -->
+        <g class="waves" stroke-linecap="round" fill="none">
+          <path class="wave w1" d="M0 272 q40 -8 80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0" stroke="#5b6fa8" stroke-width="3" opacity="0.5" />
+          <path class="wave w2" d="M0 306 q50 -9 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0" stroke="#46578c" stroke-width="3" opacity="0.45" />
+          <path class="wave w3" d="M0 342 q60 -10 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0" stroke="#33436e" stroke-width="4" opacity="0.4" />
+        </g>
+        <!-- reflection -->
+        <path d="M810 252 q40 10 80 0 q-30 26 -80 22 q-20 -12 0 -22z" fill="#f6d08a" opacity="0.22" />
+        <!-- boat -->
+        <g class="boat">
+          <path d="M170 306 q40 14 84 0 l-12 20 h-60 z" fill="#26170f" />
+          <rect x="208" y="252" width="5" height="56" fill="#26170f" />
+          <path d="M213 256 L258 296 L213 296 Z" fill="#e8e0cc" />
+          <path d="M208 262 L172 298 L206 298 Z" fill="#d9cfb4" />
+        </g>
+      </svg>
+      <figcaption class="panorama-caption">
+        <span class="panorama-kicker">EPISODE 1</span>
+        Whale Island — where a nine-year-old kept a promise to a fish, and the whole story began.
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- ================= FEATURED CHARACTERS ================= -->
+  <section class="section container">
+    <span class="section-kicker reveal">CHAPTER 2</span>
+    <h2 class="section-title reveal">The <span class="accent-g">Main</span> Party</h2>
+    <div class="featured-row">
+      {featured.map((c, i) => (
+        <a class={`featured card reveal ${i % 2 ? 'reveal-delay-2' : 'reveal-delay-1'}`} href="/characters" style={`--cc:${c.color}`}>
+          <span class="featured-art" set:html={c.portrait} />
+          <span class="featured-name">{c.name.split(' ')[0]}</span>
+          <span class="featured-nen" style={`--nc:${nenTypeColors[c.nenType]}`}>{c.nenType}</span>
+        </a>
+      ))}
+    </div>
+    <p class="featured-more reveal"><a href="/characters">All ten dossiers, with stats and abilities →</a></p>
+  </section>
+
+  <!-- ================= STORY ARCS ================= -->
+  <section class="section container">
+    <span class="section-kicker reveal">CHAPTER 3</span>
+    <h2 class="section-title reveal">The <span class="accent">Journey</span> So Far</h2>
+    <ol class="arcs">
+      {arcs.map((arc, i) => (
+        <li class={`arc card reveal ${i % 2 ? 'reveal-delay-2' : 'reveal-delay-1'}`} style={`--arc-color:${arc.color}`}>
+          <div class="arc-num" aria-hidden="true">{arc.num}</div>
+          <div>
+            <h3 class="arc-title">{arc.title}</h3>
+            <p class="arc-text">{arc.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- ================= NUMBERS ================= -->
+  <section class="section container">
+    <div class="numbers card reveal">
+      <div class="num-item"><span class="num" data-count="6">0</span><span class="num-label">Nen categories</span></div>
+      <div class="num-item"><span class="num" data-count="251">0</span><span class="num-label">Floors of Heavens Arena</span></div>
+      <div class="num-item"><span class="num" data-count="100">0</span><span class="num-label">Hands of the Guanyin</span></div>
+      <div class="num-item"><span class="num" data-count="35">0</span><span class="num-label">Tonpa's failed exams</span></div>
+    </div>
+  </section>
+
+  <!-- ================= EXPLORE ================= -->
+  <section class="section container">
+    <span class="section-kicker reveal">KEEP HUNTING</span>
+    <h2 class="section-title reveal">Choose Your <span class="accent-g">Next</span> Hunt</h2>
+    <div class="explore-grid">
+      <a class="explore card reveal" href="/characters" style="--glow:#e63946">
+        <span class="explore-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><circle cx="24" cy="16" r="9" fill="none" stroke="currentColor" stroke-width="4"/><path d="M8 42 c2 -11 8 -17 16 -17 s14 6 16 17" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>
+        </span>
+        <h3>Characters</h3>
+        <p>Ten Hunters, assassins, thieves and one professional rookie-crusher — with dossiers and stats.</p>
+        <span class="explore-go">Open the dossiers →</span>
+      </a>
+      <a class="explore card reveal reveal-delay-1" href="/nen" style="--glow:#4fbf67">
+        <span class="explore-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><path d="M24 4 L41 14 v20 L24 44 L7 34 V14 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><circle cx="24" cy="24" r="6" fill="currentColor"/></svg>
+        </span>
+        <h3>Nen</h3>
+        <p>The life energy system explained the way the anime taught it — plus a water divination test.</p>
+        <span class="explore-go">Awaken your aura →</span>
+      </a>
+      <a class="explore card reveal reveal-delay-2" href="/map" style="--glow:#58b3e0">
+        <span class="explore-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="none" stroke="currentColor" stroke-width="4"/><path d="M6 24 h36 M24 6 c8 9 8 27 0 36 c-8 -9 -8 -27 0 -36" fill="none" stroke="currentColor" stroke-width="3"/></svg>
+        </span>
+        <h3>World Map</h3>
+        <p>The known world — and the terrifying truth about what surrounds it beyond Lake Mobius.</p>
+        <span class="explore-go">Chart the unknown →</span>
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative;
+    min-height: 82vh;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    overflow: hidden;
+  }
+  #aura-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .hero-inner { position: relative; z-index: 2; padding: 4rem 0; }
+  .hero-kicker {
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    font-size: 0.72rem;
+    color: var(--hxh-gold);
+    margin-bottom: 1rem;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 8.5vw, 6rem);
+    margin: 0 0 1rem;
+    text-shadow: 4px 5px 0 rgba(0, 0, 0, 0.6);
+    filter: drop-shadow(0 0 24px rgba(79, 191, 103, 0.25));
+  }
+  .hero-title span {
+    animation: title-bounce 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  }
+  .hero-title span:hover {
+    transform: translateY(-8px) rotate(-4deg) scale(1.12);
+    transition: transform 0.18s;
+  }
+  @keyframes title-bounce {
+    0% { opacity: 0; transform: translateY(-60px) scale(0.6); }
+    100% { opacity: 1; transform: none; }
+  }
+  .hero-sub {
+    max-width: 620px;
+    margin: 0 auto 2rem;
+    color: var(--text-dim);
+    font-size: 1.05rem;
+  }
+  .hero-cta { display: flex; gap: 0.9rem; justify-content: center; flex-wrap: wrap; }
+  .hero-fade {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 140px;
+    background: linear-gradient(180deg, transparent, var(--bg));
+    z-index: 1;
+  }
+
+  /* ---------- sections ---------- */
+  .section { padding: 4.5rem 0 0; }
+
+  /* ---------- license ---------- */
+  .license-row {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    margin-top: 2rem;
+  }
+  @media (max-width: 820px) { .license-row { grid-template-columns: 1fr; } }
+  .license-copy { color: var(--text-dim); font-size: 1.02rem; }
+  .license-copy strong { color: var(--hxh-gold); }
+  .license-hint { color: var(--hxh-green); font-weight: 600; font-size: 0.9rem; }
+
+  .license-card {
+    position: relative;
+    aspect-ratio: 8 / 5;
+    max-width: 460px;
+    width: 100%;
+    margin-inline: auto;
+    border-radius: 18px;
+    padding: 1.3rem 1.5rem;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.22), transparent 55%),
+      linear-gradient(135deg, #f7f3e4 0%, #efe6c8 45%, #e4d7ae 100%);
+    color: #23301f;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease-out, box-shadow 0.3s;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .license-shine {
+    position: absolute;
+    inset: -60%;
+    background: linear-gradient(115deg, transparent 42%, rgba(255,255,255,0.5) 50%, transparent 58%);
+    transform: translateX(-70%);
+    transition: transform 0.9s ease;
+    pointer-events: none;
+  }
+  .license-card:hover .license-shine,
+  .license-card:focus .license-shine { transform: translateX(60%); }
+  .license-top { display: flex; align-items: center; gap: 0.8rem; }
+  .license-x { width: 42px; height: 42px; flex: none; }
+  .license-label { font-size: 0.62rem; letter-spacing: 0.32em; font-weight: 700; opacity: 0.7; }
+  .license-title { font-family: var(--font-display); font-size: 1.35rem; letter-spacing: 0.06em; }
+  .license-body { display: flex; gap: 1rem; margin-top: 1rem; align-items: center; }
+  .license-photo {
+    width: 72px; height: 72px;
+    border-radius: 10px;
+    background: #d9cfa8;
+    border: 2px solid #23301f33;
+    overflow: hidden;
+    flex: none;
+  }
+  .license-fields { font-size: 0.8rem; font-weight: 600; display: grid; gap: 0.15rem; }
+  .license-fields span {
+    display: inline-block;
+    width: 56px;
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    opacity: 0.55;
+  }
+  .license-strip {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 16px;
+    background: repeating-linear-gradient(90deg, #2b6e3f 0 26px, #e63946 26px 52px);
+    opacity: 0.85;
+  }
+
+  /* ---------- panorama ---------- */
+  .panorama {
+    overflow: hidden;
+    padding: 0;
+    margin-top: 0.5rem;
+  }
+  .panorama-svg { display: block; width: 100%; height: auto; }
+  .wave { animation: wave-drift 7s ease-in-out infinite; }
+  .w2 { animation-duration: 9s; animation-delay: -2s; }
+  .w3 { animation-duration: 11s; animation-delay: -4s; }
+  @keyframes wave-drift {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-40px); }
+  }
+  .boat { animation: boat-bob 5s ease-in-out infinite; transform-origin: 210px 310px; }
+  @keyframes boat-bob {
+    0%, 100% { transform: translateY(0) rotate(0.6deg); }
+    50% { transform: translateY(-6px) rotate(-1deg); }
+  }
+  .panorama-caption {
+    padding: 0.9rem 1.4rem 1rem;
+    color: var(--text-dim);
+    font-size: 0.92rem;
+    border-top: 1px solid var(--line);
+  }
+  .panorama-kicker {
+    display: inline-block;
+    margin-right: 0.7rem;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    color: var(--hxh-gold);
+  }
+
+  /* ---------- featured ---------- */
+  .featured-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .featured {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 1.2rem 0.8rem 1.1rem;
+    text-decoration: none;
+    color: var(--text);
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .featured:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--cc), 0 0 28px -8px var(--cc);
+  }
+  .featured-art {
+    width: 112px;
+    height: 128px;
+    border-radius: 50% 50% 14px 14px / 42% 42% 14px 14px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 20%, color-mix(in srgb, var(--cc) 38%, transparent), transparent 75%),
+      linear-gradient(180deg, var(--panel-2), #0e1118);
+    border: 2px solid color-mix(in srgb, var(--cc) 45%, var(--line));
+    transition: transform 0.3s;
+  }
+  .featured:hover .featured-art { transform: scale(1.06); }
+  .featured-art :global(svg) { width: 100%; height: 118%; display: block; }
+  .featured-name { font-family: var(--font-display); font-size: 1.05rem; margin-top: 0.3rem; }
+  .featured-nen {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--nc);
+  }
+  .featured-more { text-align: center; margin-top: 1.4rem; font-weight: 600; }
+
+  /* ---------- arcs ---------- */
+  .arcs {
+    list-style: none;
+    padding: 0;
+    margin: 2.2rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    gap: 1.2rem;
+  }
+  .arc {
+    display: flex;
+    gap: 1.1rem;
+    padding: 1.4rem 1.5rem;
+    border-top: 3px solid var(--arc-color);
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .arc:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--arc-color);
+  }
+  .arc-num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--arc-color);
+    line-height: 1;
+    min-width: 2.2rem;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+  }
+  .arc-title { font-size: 1.15rem; margin-bottom: 0.35rem; color: var(--text); }
+  .arc-text { color: var(--text-dim); font-size: 0.93rem; margin: 0; }
+
+  /* ---------- numbers ---------- */
+  .numbers {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    text-align: center;
+    padding: 2rem 1rem;
+    gap: 1.2rem;
+  }
+  .num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    color: var(--hxh-gold);
+    text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
+  }
+  .num-label { color: var(--text-dim); font-size: 0.85rem; font-weight: 600; }
+
+  /* ---------- explore ---------- */
+  .explore-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.2rem;
+    margin-top: 2.2rem;
+  }
+  .explore {
+    display: block;
+    padding: 1.8rem 1.6rem;
+    text-decoration: none;
+    color: var(--text);
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .explore:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55), 0 0 30px -6px var(--glow);
+  }
+  .explore-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 58px; height: 58px;
+    border-radius: 14px;
+    color: var(--glow);
+    background: color-mix(in srgb, var(--glow) 14%, transparent);
+    margin-bottom: 0.9rem;
+  }
+  .explore-icon svg { width: 30px; height: 30px; }
+  .explore h3 { font-size: 1.25rem; }
+  .explore p { color: var(--text-dim); font-size: 0.93rem; }
+  .explore-go { color: var(--glow); font-weight: 700; font-size: 0.9rem; }
+</style>
+
+<script>
+  // ---------- aura particles in hero ----------
+  const canvas = document.getElementById('aura-canvas') as HTMLCanvasElement | null;
+  if (canvas) {
+    const ctx = canvas.getContext('2d')!;
+    const colors = ['79,191,103', '230,57,70', '88,179,224', '244,201,93'];
+    let particles: { x: number; y: number; r: number; vy: number; vx: number; c: string; a: number; da: number }[] = [];
+    let w = 0, h = 0;
+
+    const resize = () => {
+      w = canvas.width = canvas.offsetWidth * devicePixelRatio;
+      h = canvas.height = canvas.offsetHeight * devicePixelRatio;
+    };
+    resize();
+    addEventListener('resize', resize);
+
+    const spawn = () => ({
+      x: Math.random() * w,
+      y: h + 20,
+      r: (Math.random() * 3 + 1.2) * devicePixelRatio,
+      vy: -(Math.random() * 0.6 + 0.25) * devicePixelRatio,
+      vx: (Math.random() - 0.5) * 0.3 * devicePixelRatio,
+      c: colors[Math.floor(Math.random() * colors.length)],
+      a: 0,
+      da: Math.random() * 0.012 + 0.004,
+    });
+
+    for (let i = 0; i < 55; i++) {
+      const p = spawn();
+      p.y = Math.random() * h;
+      p.a = Math.random() * 0.6;
+      particles.push(p);
+    }
+
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const tick = () => {
+      ctx.clearRect(0, 0, w, h);
+      for (const p of particles) {
+        p.y += p.vy;
+        p.x += p.vx + Math.sin(p.y * 0.01) * 0.2;
+        p.a = Math.min(p.a + p.da, 0.75);
+        if (p.y < -20) Object.assign(p, spawn());
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${p.c},${p.a})`;
+        ctx.shadowColor = `rgba(${p.c},0.8)`;
+        ctx.shadowBlur = 12;
+        ctx.fill();
+      }
+      if (!reduced) requestAnimationFrame(tick);
+    };
+    tick();
+  }
+
+  // ---------- license 3D tilt ----------
+  const card = document.getElementById('license-card');
+  if (card) {
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `perspective(700px) rotateY(${px * 14}deg) rotateX(${-py * 12}deg)`;
+    });
+    card.addEventListener('mouseleave', () => (card.style.transform = ''));
+  }
+
+  // ---------- count-up numbers ----------
+  const nums = document.querySelectorAll<HTMLElement>('.num');
+  const numIo = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      numIo.unobserve(entry.target);
+      const el = entry.target as HTMLElement;
+      const target = Number(el.dataset.count || 0);
+      const t0 = performance.now();
+      const dur = 1400;
+      const step = (t: number) => {
+        const k = Math.min((t - t0) / dur, 1);
+        el.textContent = String(Math.round(target * (1 - Math.pow(1 - k, 3))));
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+  }, { threshold: 0.4 });
+  nums.forEach((n) => numIo.observe(n));
+</script>

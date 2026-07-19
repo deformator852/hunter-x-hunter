@@ -1,0 +1,100 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'A fan-made tribute to Yoshihiro Togashi\'s Hunter x Hunter — characters, Nen, and the world map.' } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/characters', label: 'Characters' },
+  { href: '/nen', label: 'Nen' },
+  { href: '/map', label: 'World Map' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title} · Hunter × Hunter Fan Site</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Rubik:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav container" aria-label="Main navigation">
+        <a class="brand" href="/">
+          <svg class="x-mark" viewBox="0 0 40 40" aria-hidden="true">
+            <g stroke-linecap="round" stroke-width="7">
+              <line x1="8" y1="8" x2="32" y2="32" stroke="#e63946" />
+              <line x1="32" y1="8" x2="8" y2="32" stroke="#4fbf67" />
+            </g>
+          </svg>
+          <span class="hxh-letters" aria-label="Hunter x Hunter">
+            {'HUNTER×HUNTER'.split('').map((ch) => <span>{ch}</span>)}
+          </span>
+        </a>
+        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+        <ul class="nav-links">
+          {links.map((l) => (
+            <li>
+              <a href={l.href} aria-current={path === l.href ? 'page' : undefined}>{l.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="hxh-letters">
+          {'HUNTER×HUNTER'.split('').map((ch) => <span>{ch}</span>)}
+        </div>
+        <p>
+          An unofficial fan site. Hunter × Hunter was created by Yoshihiro Togashi.
+          All artwork on this site is original, hand-coded SVG made in tribute — no official assets are used.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // mobile nav
+      const toggle = document.querySelector('.nav-toggle');
+      const linksEl = document.querySelector('.nav-links');
+      toggle?.addEventListener('click', () => {
+        const open = linksEl?.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', String(!!open));
+      });
+
+      // scroll reveal
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible');
+              io.unobserve(e.target);
+            }
+          }
+        },
+        { threshold: 0.12 }
+      );
+      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>
