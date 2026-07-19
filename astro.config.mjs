@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://example.com',
+  site: 'https://deformator852.github.io',
+  base: '/hunter-x-hunter',
 });

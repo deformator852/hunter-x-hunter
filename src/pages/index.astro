@@ -3,6 +3,8 @@ import Base from '../layouts/Base.astro';
 import { characters, nenTypeColors } from '../data/characters.js';
 import { portraits } from '../data/portraits.js';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 const featured = ['gon', 'killua', 'kurapika', 'leorio', 'hisoka'].map((id) => {
   const c = characters.find((x) => x.id === id);
   return { ...c, portrait: portraits[id] };
@@ -64,9 +66,9 @@ const arcs = [
         and sometimes a father who left a game behind instead of a goodbye.
       </p>
       <div class="hero-cta">
-        <a class="btn btn-red" href="/characters">Meet the Hunters</a>
-        <a class="btn btn-green" href="/nen">Learn Nen</a>
-        <a class="btn btn-ghost" href="/map">Explore the World</a>
+        <a class="btn btn-red" href={`${base}/characters`}>Meet the Hunters</a>
+        <a class="btn btn-green" href={`${base}/nen`}>Learn Nen</a>
+        <a class="btn btn-ghost" href={`${base}/map`}>Explore the World</a>
       </div>
     </div>
     <div class="hero-fade" aria-hidden="true"></div>
@@ -190,14 +192,14 @@ const arcs = [
     <h2 class="section-title reveal">The <span class="accent-g">Main</span> Party</h2>
     <div class="featured-row">
       {featured.map((c, i) => (
-        <a class={`featured card reveal ${i % 2 ? 'reveal-delay-2' : 'reveal-delay-1'}`} href="/characters" style={`--cc:${c.color}`}>
+        <a class={`featured card reveal ${i % 2 ? 'reveal-delay-2' : 'reveal-delay-1'}`} href={`${base}/characters`} style={`--cc:${c.color}`}>
           <span class="featured-art" set:html={c.portrait} />
           <span class="featured-name">{c.name.split(' ')[0]}</span>
           <span class="featured-nen" style={`--nc:${nenTypeColors[c.nenType]}`}>{c.nenType}</span>
         </a>
       ))}
     </div>
-    <p class="featured-more reveal"><a href="/characters">All ten dossiers, with stats and abilities →</a></p>
+    <p class="featured-more reveal"><a href={`${base}/characters`}>All ten dossiers, with stats and abilities →</a></p>
   </section>
 
   <!-- ================= STORY ARCS ================= -->
@@ -232,7 +234,7 @@ const arcs = [
     <span class="section-kicker reveal">KEEP HUNTING</span>
     <h2 class="section-title reveal">Choose Your <span class="accent-g">Next</span> Hunt</h2>
     <div class="explore-grid">
-      <a class="explore card reveal" href="/characters" style="--glow:#e63946">
+      <a class="explore card reveal" href={`${base}/characters`} style="--glow:#e63946">
         <span class="explore-icon" aria-hidden="true">
           <svg viewBox="0 0 48 48"><circle cx="24" cy="16" r="9" fill="none" stroke="currentColor" stroke-width="4"/><path d="M8 42 c2 -11 8 -17 16 -17 s14 6 16 17" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>
         </span>
@@ -240,7 +242,7 @@ const arcs = [
         <p>Ten Hunters, assassins, thieves and one professional rookie-crusher — with dossiers and stats.</p>
         <span class="explore-go">Open the dossiers →</span>
       </a>
-      <a class="explore card reveal reveal-delay-1" href="/nen" style="--glow:#4fbf67">
+      <a class="explore card reveal reveal-delay-1" href={`${base}/nen`} style="--glow:#4fbf67">
         <span class="explore-icon" aria-hidden="true">
           <svg viewBox="0 0 48 48"><path d="M24 4 L41 14 v20 L24 44 L7 34 V14 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><circle cx="24" cy="24" r="6" fill="currentColor"/></svg>
         </span>
@@ -248,7 +250,7 @@ const arcs = [
         <p>The life energy system explained the way the anime taught it — plus a water divination test.</p>
         <span class="explore-go">Awaken your aura →</span>
       </a>
-      <a class="explore card reveal reveal-delay-2" href="/map" style="--glow:#58b3e0">
+      <a class="explore card reveal reveal-delay-2" href={`${base}/map`} style="--glow:#58b3e0">
         <span class="explore-icon" aria-hidden="true">
           <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="none" stroke="currentColor" stroke-width="4"/><path d="M6 24 h36 M24 6 c8 9 8 27 0 36 c-8 -9 -8 -27 0 -36" fill="none" stroke="currentColor" stroke-width="3"/></svg>
         </span>

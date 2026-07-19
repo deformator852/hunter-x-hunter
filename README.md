@@ -17,7 +17,13 @@ A dynamic, animated fan tribute to Yoshihiro Togashi's *Hunter × Hunter*, built
 
 ```bash
 npm install
-npm run dev      # http://localhost:4321
+npm run dev      # http://localhost:4321/hunter-x-hunter/
 npm run build    # static output in dist/
 npm run preview
 ```
+
+## Deploy
+
+Pushing to `main` triggers the **Deploy to GitHub Pages** workflow (`.github/workflows/deploy.yml`).
+One-time setup: repository **Settings → Pages → Source → GitHub Actions**.
+The site is served from `https://deformator852.github.io/hunter-x-hunter/`.
