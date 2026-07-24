@@ -1,13 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
 import { characters, nenTypeColors } from '../data/characters.js';
-import { portraits } from '../data/portraits.js';
+import { portraitSrc } from '../data/portraits.js';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const featured = ['gon', 'killua', 'kurapika', 'leorio', 'hisoka'].map((id) => {
   const c = characters.find((x) => x.id === id);
-  return { ...c, portrait: portraits[id] };
+  return { ...c, portrait: portraitSrc(base, id) };
 });
 
 const arcs = [
@@ -128,57 +128,18 @@ const arcs = [
 
   <!-- ================= WHALE ISLAND PANORAMA ================= -->
   <section class="section container">
-    <figure class="panorama card reveal" aria-label="Illustration of Whale Island at dusk">
-      <svg viewBox="0 0 1200 380" class="panorama-svg" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#12203c" />
-            <stop offset="55%" stop-color="#37436e" />
-            <stop offset="82%" stop-color="#b1585e" />
-            <stop offset="100%" stop-color="#e08a5a" />
-          </linearGradient>
-          <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#c76f56" />
-            <stop offset="30%" stop-color="#3a4a78" />
-            <stop offset="100%" stop-color="#101a30" />
-          </linearGradient>
-        </defs>
-        <rect width="1200" height="240" fill="url(#sky)" />
-        <circle cx="850" cy="215" r="52" fill="#f6d08a" opacity="0.95" />
-        <circle cx="850" cy="215" r="70" fill="#f6d08a" opacity="0.25" />
-        <g fill="#0d1526" opacity="0.85">
-          <circle cx="120" cy="70" r="2" /><circle cx="240" cy="40" r="1.6" /><circle cx="380" cy="86" r="2" />
-          <circle cx="520" cy="34" r="1.6" /><circle cx="1050" cy="60" r="2" /><circle cx="1140" cy="110" r="1.6" />
-        </g>
-        <rect y="240" width="1200" height="140" fill="url(#water)" />
-        <!-- whale island -->
-        <g>
-          <path d="M330 240 C 380 150 480 118 560 128 C 640 138 700 180 720 240 Z" fill="#1a2b45" />
-          <path d="M330 240 C 380 150 480 118 560 128 C 610 134 650 152 680 186 C 620 168 500 160 430 196 C 390 214 360 228 348 240 Z" fill="#22375a" />
-          <path d="M545 128 C 560 100 596 96 612 112 C 596 110 576 116 566 132 Z" fill="#22375a" />
-          <g fill="#142138">
-            <path d="M470 190 l14 -26 14 26 z" /><path d="M496 184 l12 -22 12 22 z" /><path d="M520 190 l14 -26 14 26 z" />
-          </g>
-          <circle cx="560" cy="208" r="3.5" fill="#f6d08a" />
-          <circle cx="586" cy="216" r="3" fill="#f6d08a" />
-          <circle cx="540" cy="220" r="2.5" fill="#f6d08a" />
-        </g>
-        <!-- waves -->
-        <g class="waves" stroke-linecap="round" fill="none">
-          <path class="wave w1" d="M0 272 q40 -8 80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0" stroke="#5b6fa8" stroke-width="3" opacity="0.5" />
-          <path class="wave w2" d="M0 306 q50 -9 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0" stroke="#46578c" stroke-width="3" opacity="0.45" />
-          <path class="wave w3" d="M0 342 q60 -10 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0" stroke="#33436e" stroke-width="4" opacity="0.4" />
-        </g>
-        <!-- reflection -->
-        <path d="M810 252 q40 10 80 0 q-30 26 -80 22 q-20 -12 0 -22z" fill="#f6d08a" opacity="0.22" />
-        <!-- boat -->
-        <g class="boat">
-          <path d="M170 306 q40 14 84 0 l-12 20 h-60 z" fill="#26170f" />
-          <rect x="208" y="252" width="5" height="56" fill="#26170f" />
-          <path d="M213 256 L258 296 L213 296 Z" fill="#e8e0cc" />
-          <path d="M208 262 L172 298 L206 298 Z" fill="#d9cfb4" />
-        </g>
-      </svg>
+    <figure class="panorama card reveal" aria-label="Whale Island from Hunter × Hunter episode 1">
+      <div class="panorama-media">
+        <img
+          class="panorama-img"
+          src={`${base}/images/whale-island.webp`}
+          alt="Gon Freecss catching the Master of the Swamp near Whale Island"
+          width="1920"
+          height="1080"
+          loading="lazy"
+        />
+        <div class="panorama-grade" aria-hidden="true"></div>
+      </div>
       <figcaption class="panorama-caption">
         <span class="panorama-kicker">EPISODE 1</span>
         Whale Island — where a nine-year-old kept a promise to a fish, and the whole story began.
@@ -193,7 +154,9 @@ const arcs = [
     <div class="featured-row">
       {featured.map((c, i) => (
         <a class={`featured card reveal ${i % 2 ? 'reveal-delay-2' : 'reveal-delay-1'}`} href={`${base}/characters`} style={`--cc:${c.color}`}>
-          <span class="featured-art" set:html={c.portrait} />
+          <span class="featured-art">
+            <img src={c.portrait} alt={c.name} width="160" height="180" loading="lazy" />
+          </span>
           <span class="featured-name">{c.name.split(' ')[0]}</span>
           <span class="featured-nen" style={`--nc:${nenTypeColors[c.nenType]}`}>{c.nenType}</span>
         </a>
@@ -257,6 +220,14 @@ const arcs = [
         <h3>World Map</h3>
         <p>The known world — and the terrifying truth about what surrounds it beyond Lake Mobius.</p>
         <span class="explore-go">Chart the unknown →</span>
+      </a>
+      <a class="explore card reveal reveal-delay-3" href={`${base}/contact`} style="--glow:#f4c95d">
+        <span class="explore-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><path d="M8 14 h32 v22 H8 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M8 16 L24 28 L40 16" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <h3>Contact</h3>
+        <p>Open a channel to the hunter who built this site — GitHub and LinkedIn.</p>
+        <span class="explore-go">Send a signal →</span>
       </a>
     </div>
   </section>
@@ -398,18 +369,29 @@ const arcs = [
     padding: 0;
     margin-top: 0.5rem;
   }
-  .panorama-svg { display: block; width: 100%; height: auto; }
-  .wave { animation: wave-drift 7s ease-in-out infinite; }
-  .w2 { animation-duration: 9s; animation-delay: -2s; }
-  .w3 { animation-duration: 11s; animation-delay: -4s; }
-  @keyframes wave-drift {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(-40px); }
+  .panorama-media {
+    position: relative;
+    max-height: 420px;
+    overflow: hidden;
   }
-  .boat { animation: boat-bob 5s ease-in-out infinite; transform-origin: 210px 310px; }
-  @keyframes boat-bob {
-    0%, 100% { transform: translateY(0) rotate(0.6deg); }
-    50% { transform: translateY(-6px) rotate(-1deg); }
+  .panorama-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.02);
+    transition: transform 6s ease;
+  }
+  .panorama:hover .panorama-img { transform: scale(1.08); }
+  .panorama-grade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(11, 13, 18, 0.25), transparent 28%, transparent 65%, rgba(11, 13, 18, 0.45)),
+      radial-gradient(ellipse at 60% 35%, rgba(79, 191, 103, 0.1), transparent 55%);
   }
   .panorama-caption {
     padding: 0.9rem 1.4rem 1rem;
@@ -459,7 +441,13 @@ const arcs = [
     transition: transform 0.3s;
   }
   .featured:hover .featured-art { transform: scale(1.06); }
-  .featured-art :global(svg) { width: 100%; height: 118%; display: block; }
+  .featured-art :global(img) {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center top;
+  }
   .featured-name { font-family: var(--font-display); font-size: 1.05rem; margin-top: 0.3rem; }
   .featured-nen {
     font-size: 0.62rem;

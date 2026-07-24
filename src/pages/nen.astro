@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { characters } from '../data/characters.js';
-import { portraits } from '../data/portraits.js';
+import { portraitSrc } from '../data/portraits.js';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -15,7 +15,7 @@ const facesByType = {
 };
 const faceData = (id) => {
   const c = characters.find((x) => x.id === id);
-  return { id, name: c.name.split(' ')[0], color: c.color, portrait: portraits[id] };
+  return { id, name: c.name.split(' ')[0], color: c.color, portrait: portraitSrc(base, id) };
 };
 
 const principles = [
@@ -273,7 +273,9 @@ const quiz = [
                   const f = faceData(fid);
                   return (
                     <a class="hex-face" href={`${base}/characters`} style={`--fc:${f.color}`} title={`${f.name} — see dossier`}>
-                      <span class="hex-face-art" set:html={f.portrait} />
+                      <span class="hex-face-art">
+                        <img src={f.portrait} alt={f.name} width="80" height="80" loading="lazy" />
+                      </span>
                       <span class="hex-face-name">{f.name}</span>
                     </a>
                   );
@@ -523,7 +525,13 @@ const quiz = [
   }
   .hex-face:hover .hex-face-art { transform: scale(1.12); }
   .hex-face:hover { color: var(--fc); }
-  .hex-face-art :global(svg) { width: 100%; height: 132%; display: block; }
+  .hex-face-art :global(img) {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center top;
+  }
 
   /* ---------- divination ---------- */
   .divination { padding: 2rem; margin-top: 1.8rem; }

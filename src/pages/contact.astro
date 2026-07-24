@@ -1,0 +1,155 @@
+---
+import Base from '../layouts/Base.astro';
+
+const links = [
+  {
+    id: 'github',
+    name: 'GitHub',
+    handle: '@deformator852',
+    href: 'https://github.com/deformator852',
+    color: '#e8e6df',
+    accent: '#4fbf67',
+    blurb: 'Code, experiments, and this fan site itself — open the repository, poke around, leave a star if you like the hunt.',
+    icon: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2C6.48 2 2 6.58 2 12.26c0 4.52 2.87 8.35 6.84 9.7.5.1.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.73 0 0 .84-.27 2.75 1.05A9.3 9.3 0 0 1 12 6.84c.85 0 1.7.12 2.5.34 1.9-1.32 2.74-1.05 2.74-1.05.55 1.42.2 2.47.1 2.73.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.8-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.8 0 .27.18.59.69.48A10.03 10.03 0 0 0 22 12.26C22 6.58 17.52 2 12 2Z"/></svg>`,
+  },
+  {
+    id: 'linkedin',
+    name: 'LinkedIn',
+    handle: 'Nikita Kostenko',
+    href: 'https://www.linkedin.com/in/nikita-kostenko141/',
+    color: '#58b3e0',
+    accent: '#58b3e0',
+    blurb: 'Professional profile — if you want to talk about work, collaboration, or how this site was built, send a message there.',
+    icon: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22 0H2C.9 0 0 .9 0 2v20c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2z"/></svg>`,
+  },
+];
+---
+
+<Base title="Contact" description="Get in touch — GitHub and LinkedIn for Nikita Kostenko, creator of this Hunter × Hunter fan site.">
+  <section class="page-head container">
+    <span class="section-kicker">HUNTER ASSOCIATION · OPEN CHANNEL</span>
+    <h1 class="section-title">Get in <span class="accent-g">Touch</span></h1>
+    <p class="page-sub">
+      This site is a portfolio piece and an unofficial fan encyclopedia.
+      If you want to reach the hunter who built it — pick a channel below.
+    </p>
+  </section>
+
+  <section class="container contact-wrap">
+    <div class="contact-grid">
+      {links.map((l, i) => (
+        <a
+          class={`contact-card card reveal ${i ? 'reveal-delay-1' : ''}`}
+          href={l.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={`--ac:${l.accent}`}
+        >
+          <span class="contact-icon" style={`color:${l.color}`} set:html={l.icon} />
+          <span class="contact-meta">
+            <span class="contact-name">{l.name}</span>
+            <span class="contact-handle">{l.handle}</span>
+          </span>
+          <p class="contact-blurb">{l.blurb}</p>
+          <span class="contact-go">Open link →</span>
+        </a>
+      ))}
+    </div>
+
+    <aside class="contact-note card reveal reveal-delay-2">
+      <h2 class="contact-note-title">Applicant file</h2>
+      <dl class="contact-file">
+        <div><dt>Name</dt><dd>Nikita Kostenko</dd></div>
+        <div><dt>Role</dt><dd>Developer · site author</dd></div>
+        <div><dt>Project</dt><dd>Unofficial Hunter × Hunter fan site</dd></div>
+      </dl>
+    </aside>
+  </section>
+</Base>
+
+<style>
+  .page-head { padding: 3.2rem 0 0.5rem; text-align: center; }
+  .page-sub { color: var(--text-dim); max-width: 560px; margin: 0 auto 1.6rem; }
+
+  .contact-wrap {
+    display: grid;
+    gap: 1.4rem;
+    padding-bottom: 1rem;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .contact-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 1.7rem 1.6rem 1.5rem;
+    text-decoration: none;
+    color: var(--text);
+    border-top: 3px solid var(--ac);
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .contact-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--ac), 0 0 28px -8px var(--ac);
+  }
+
+  .contact-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--ac) 14%, transparent);
+    margin-bottom: 0.3rem;
+  }
+  .contact-icon :global(svg) { width: 28px; height: 28px; }
+
+  .contact-meta { display: grid; gap: 0.15rem; }
+  .contact-name { font-family: var(--font-display); font-size: 1.35rem; letter-spacing: 0.04em; }
+  .contact-handle { color: var(--ac); font-weight: 700; font-size: 0.9rem; }
+  .contact-blurb { color: var(--text-dim); font-size: 0.94rem; margin: 0.2rem 0 0.4rem; flex: 1; }
+  .contact-go { color: var(--ac); font-weight: 700; font-size: 0.88rem; }
+
+  .contact-note {
+    padding: 1.5rem 1.6rem;
+    border-left: 3px solid var(--hxh-gold);
+  }
+  .contact-note-title {
+    font-size: 1.15rem;
+    color: var(--hxh-gold);
+    margin-bottom: 0.9rem;
+  }
+  .contact-file {
+    margin: 0;
+    display: grid;
+    gap: 0.65rem;
+  }
+  .contact-file div {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 0.6rem;
+    align-items: baseline;
+  }
+  .contact-file dt {
+    margin: 0;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .contact-file dd {
+    margin: 0;
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  @media (max-width: 520px) {
+    .contact-file div { grid-template-columns: 1fr; gap: 0.15rem; }
+  }
+</style>
