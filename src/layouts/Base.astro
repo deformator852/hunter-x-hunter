@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import SiteEffects from '../components/SiteEffects';
 
 interface Props {
   title: string;
@@ -74,28 +75,6 @@ const links = [
       </div>
     </footer>
 
-    <script>
-      // mobile nav
-      const toggle = document.querySelector('.nav-toggle');
-      const linksEl = document.querySelector('.nav-links');
-      toggle?.addEventListener('click', () => {
-        const open = linksEl?.classList.toggle('open');
-        toggle.setAttribute('aria-expanded', String(!!open));
-      });
-
-      // scroll reveal
-      const io = new IntersectionObserver(
-        (entries) => {
-          for (const e of entries) {
-            if (e.isIntersecting) {
-              e.target.classList.add('visible');
-              io.unobserve(e.target);
-            }
-          }
-        },
-        { threshold: 0.12 }
-      );
-      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
-    </script>
+    <SiteEffects client:load />
   </body>
 </html>

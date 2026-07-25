@@ -1,7 +1,4 @@
-// Character portrait image paths (anime stills from Hunterpedia, used for this
- // unofficial non-commercial fan site). Prefer bust/headshot portraits.
-
-export const portraits = {
+export const portraits: Record<string, string> = {
   gon: '/images/characters/gon.png',
   killua: '/images/characters/killua.png',
   kurapika: '/images/characters/kurapika.png',
@@ -15,7 +12,7 @@ export const portraits = {
 };
 
 /** Build an absolute-with-base portrait URL for the current Astro base path. */
-export function portraitSrc(base, id) {
+export function portraitSrc(base: string, id: string): string {
   const path = portraits[id];
   if (!path) return '';
   const prefix = (base || '').replace(/\/$/, '');

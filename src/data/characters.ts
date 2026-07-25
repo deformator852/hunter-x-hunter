@@ -1,7 +1,39 @@
 // Each emblem is original, hand-coded SVG inspired by the character's signature
 // item or ability — no copyrighted artwork is used anywhere on the site.
 
-export const characters = [
+export type NenTypeName =
+  | 'Enhancement'
+  | 'Transmutation'
+  | 'Conjuration'
+  | 'Specialization'
+  | 'Manipulation'
+  | 'Emission'
+  | 'Unknown';
+
+export type CharacterStats = {
+  power: number;
+  speed: number;
+  tactics: number;
+  nen: number;
+};
+
+export type Character = {
+  id: string;
+  name: string;
+  epithet: string;
+  nenType: NenTypeName;
+  color: string;
+  color2: string;
+  quote: string;
+  bio: string;
+  abilities: string[];
+  stats: CharacterStats;
+  emblem: string;
+};
+
+export type CharacterWithPortrait = Character & { portrait: string };
+
+export const characters: Character[] = [
   {
     id: 'gon',
     name: 'Gon Freecss',
@@ -187,7 +219,7 @@ export const characters = [
   },
 ];
 
-export const nenTypeColors = {
+export const nenTypeColors: Record<NenTypeName, string> = {
   Enhancement: 'var(--nen-enhancement)',
   Transmutation: 'var(--nen-transmutation)',
   Conjuration: 'var(--nen-conjuration)',

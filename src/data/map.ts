@@ -1,6 +1,27 @@
 // Map locations for the interactive World Map page.
 
-export const legend = [
+export type PlaceType = 'city' | 'island' | 'landmark' | 'conflict' | 'calamity';
+
+export type MapPlace = {
+  id: string;
+  name: string;
+  x: number;
+  y: number;
+  color: string;
+  type: PlaceType;
+  labelY?: number;
+  text: string;
+  image: string | null;
+  rank?: string | null;
+};
+
+export type LegendItem = {
+  id: PlaceType;
+  label: string;
+  color: string;
+};
+
+export const legend: LegendItem[] = [
   { id: 'city', label: 'City', color: '#e63946' },
   { id: 'island', label: 'Island', color: '#4fbf67' },
   { id: 'landmark', label: 'Landmark', color: '#58b3e0' },
@@ -8,7 +29,7 @@ export const legend = [
   { id: 'calamity', label: 'Calamity', color: '#f45fc0' },
 ];
 
-export const knownPlaces = [
+export const knownPlaces: MapPlace[] = [
   {
     id: 'whale', name: 'Whale Island', x: 618, y: 470, color: '#4fbf67', type: 'island',
     labelY: -42,
@@ -89,7 +110,7 @@ export const knownPlaces = [
   },
 ];
 
-export const darkPlaces = [
+export const darkPlaces: MapPlace[] = [
   {
     id: 'gate', name: 'Gateway to the New World', x: 500, y: 208, color: '#f4c95d', type: 'landmark', rank: null,
     text: 'The colossal door in the Mobius wall through which V5 expeditions depart. Beyond it: a land that has erased 149 expeditions... out of 149.',
