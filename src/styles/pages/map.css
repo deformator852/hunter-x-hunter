@@ -37,25 +37,19 @@
   background: #d4b78a;
 }
 
-.leaflet-host {
+.pixi-host {
   width: 100%;
   height: 100%;
   background: inherit;
   z-index: 0;
   overflow: hidden;
+  touch-action: none;
 }
-
-/* Leaflet chrome — keep quiet so the chart leads */
-.leaflet-host .leaflet-container {
-  background: inherit;
-  font: inherit;
-  overflow: hidden !important;
+.pixi-host canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
 }
-.leaflet-host .leaflet-image-layer {
-  /* Avoid sub-pixel seams that look like a blue/void fringe */
-  image-rendering: auto;
-}
-.leaflet-host .leaflet-control-attribution { display: none; }
 
 .zoom-controls {
   position: absolute;

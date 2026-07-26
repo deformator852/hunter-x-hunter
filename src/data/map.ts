@@ -1,13 +1,11 @@
 /**
- * Interactive World Map — edit this file to add places AND tune the camera.
+ * Interactive World Map — places + camera (Pixi vector chart).
  *
- * Base art: public/images/map/official-world-map.webp
- * Coordinates: image pixels, origin TOP-LEFT (open the WebP, read x/y under cursor).
+ * Land/water shapes: src/data/mapVectors.ts (traced from official-world-map.webp)
+ * Coordinates: same pixel space as the chart (3840×2280), origin TOP-LEFT.
  *
  * knownPlaces → both views
  * darkPlaces  → True Map only (calamities / gate)
- *
- * Camera: edit MAP_CAMERA below (Known World frame + zoom nudges).
  */
 
 export type PlaceType = 'city' | 'island' | 'landmark' | 'conflict' | 'calamity';
@@ -22,8 +20,13 @@ export type MapPlace = {
   color: string;
   type: PlaceType;
   text: string;
+  /** Side-panel still (optional). */
   image: string | null;
-  /** Threat rank for calamities, e.g. 'B', 'A+'. */
+  /**
+   * Large map glyph for calamities (chart sketch).
+   * Shown on the True Map instead of a plain pin.
+   */
+  mapIcon?: string | null;
   rank?: string | null;
 };
 
@@ -33,36 +36,28 @@ export type LegendItem = {
   color: string;
 };
 
-/** Must match public/images/map/official-world-map.webp */
+/** Same space as official-world-map.webp / mapVectors.ts */
 export const MAP_WIDTH = 3840;
 export const MAP_HEIGHT = 2280;
 
 /**
- * Camera / zoom — tweak these yourself.
- *
- * knownFrame — rectangle of the Known World view in image pixels (top-left origin).
- *   Open the WebP, note the dashed box corners, set x/y/w/h.
- *   Too cropped? ↓ x/y or ↑ w/h. Too much lake around? ↑ x/y or ↓ w/h.
- *
- * knownZoomIn / trueZoomIn — extra zoom after fit (Leaflet zoom units).
- *   Positive = closer (e.g. 0.4). Negative = further out (e.g. -0.2).
- *   0 = fit the frame / full map exactly.
- *
- * *Padding — inset in CSS pixels when fitting.
- * *BoundsPad — how far you may pan past the frame (0 = hard edge, 0.1 = 10%).
+ * Camera — knownFrame crops Known World + New Continent.
+ * knownZoomIn / trueZoomIn — scale multiplier after fit (1 = exact).
+ * minScale / maxScale — screen px per world unit (vector stays sharp).
  */
 export const MAP_CAMERA = {
-  // Known World + New Continent (aspect matched via stageStyle in WorldMap).
-  knownFrame: { x: 800, y: 560, w: 2500, h: 1306 },
-  knownZoomIn: -0.1,
-  trueZoomIn: 0,
-  knownPadding: 0,
-  truePadding: 0,
+  knownFrame: { x: 1080, y: 620, w: 2100, h: 1200 },
+  knownZoomIn: 1,
+  trueZoomIn: 1,
+  knownPadding: 8,
+  truePadding: 4,
   knownBoundsPad: 0,
   trueBoundsPad: 0,
-  maxZoom: 2.5,
-} as const; 
-/** @deprecated use MAP_CAMERA.knownFrame — kept for older imports */
+  minScale: 0.08,
+  maxScale: 12,
+} as const;
+
+/** @deprecated use MAP_CAMERA.knownFrame */
 export const KNOWN_WORLD_FRAME = MAP_CAMERA.knownFrame;
 
 export const legend: LegendItem[] = [
@@ -73,6 +68,7 @@ export const legend: LegendItem[] = [
   { id: 'calamity', label: 'Calamity', color: '#f45fc0' },
 ];
 
+/** Pins aligned to Sharpsider labels on the 3840×2280 chart. */
 export const knownPlaces: MapPlace[] = [
   {
     id: 'whale',
@@ -227,7 +223,8 @@ export const darkPlaces: MapPlace[] = [
     type: 'calamity',
     rank: 'B',
     text: 'A botanical weapon guarding ancient ruins — a sphere-headed colossus that hunts anything that moves.',
-    image: null,
+    image: '/images/calamities/brion.webp',
+    mapIcon: '/images/calamities/brion.webp',
   },
   {
     id: 'hellbell',
@@ -238,7 +235,8 @@ export const darkPlaces: MapPlace[] = [
     type: 'calamity',
     rank: 'A',
     text: 'The twin snake of mutual destruction. It kills through the human desire for revenge.',
-    image: null,
+    image: '/images/calamities/hellbell.webp',
+    mapIcon: '/images/calamities/hellbell.webp',
   },
   {
     id: 'ai',
@@ -249,7 +247,8 @@ export const darkPlaces: MapPlace[] = [
     type: 'calamity',
     rank: 'A+',
     text: 'A gaseous life form — "the codependence of desire." It whispers, and people walk into it smiling. Nanika came from here.',
-    image: null,
+    image: '/images/calamities/ai.webp',
+    mapIcon: '/images/calamities/ai.webp',
   },
   {
     id: 'zobae',
@@ -260,7 +259,8 @@ export const darkPlaces: MapPlace[] = [
     type: 'calamity',
     rank: 'B+',
     text: 'An immortality sickness. Its sole survivor came back undying — and permanently hungry.',
-    image: null,
+    image: '/images/calamities/zobae.webp',
+    mapIcon: '/images/calamities/zobae.webp',
   },
   {
     id: 'pap',
@@ -272,6 +272,7 @@ export const darkPlaces: MapPlace[] = [
     rank: 'B',
     text: 'A two-tailed beast of unconditional love. Its victims return as empty, blissful husks.',
     image: '/images/locations/pap.webp',
+    mapIcon: '/images/calamities/pap.webp',
   },
 ];
 
