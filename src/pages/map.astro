@@ -4,13 +4,14 @@ import WorldMap from '../components/WorldMap.vue';
 import { knownPlaces, darkPlaces, calamities, legend } from '../data/map';
 import { withBase } from '../lib/base';
 
-const known = knownPlaces.map((p) => ({ ...p, image: withBase(p.image), mapIcon: withBase(p.mapIcon) }));
-const dark = darkPlaces.map((p) => ({ ...p, image: withBase(p.image), mapIcon: withBase(p.mapIcon) }));
-const cals = calamities.map((p) => ({ ...p, image: withBase(p.image), mapIcon: withBase(p.mapIcon) }));
+const known = knownPlaces.map((p) => ({ ...p, image: withBase(p.image) }));
+const dark = darkPlaces.map((p) => ({ ...p, image: withBase(p.image) }));
+const cals = calamities.map((p) => ({ ...p, image: withBase(p.image) }));
+const mapSrc = withBase('/images/map/official-world-map.webp')!;
 ---
 
-<Base title="World Map" description="An interactive vector map of the Hunter x Hunter world — traced from the Association survey chart.">
-  <WorldMap client:only="vue" known={known} dark={dark} legend={legend} calamities={cals}>
+<Base title="World Map" description="An interactive map of the Hunter x Hunter world — the known continents, and the Dark Continent beyond Lake Mobius.">
+  <WorldMap client:only="vue" known={known} dark={dark} legend={legend} calamities={cals} mapSrc={mapSrc}>
     <div slot="fallback" class="container" style="padding:3rem 0;text-align:center;color:var(--text-dim)">
       Loading survey chart…
     </div>
